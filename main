@@ -1,0 +1,15 @@
+import sys
+from PyQt6.QtWidgets import QApplication
+from Logic import Logic
+
+def main():
+    app = QApplication(sys.argv)
+
+    logic = Logic()
+    logic.show_log()
+
+    sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()
