@@ -8,33 +8,33 @@ from PyQt6.QtWidgets import *
 class Logic(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.login = LogLogic(self)
-        self.dep = DepLogic(self)
-        self.wit = WitLogic(self)
-        self.home = HomeLogic(self)
-        self.reg = RegLogic(self)
 
     def show_log(self):
+        self.login = LogLogic(self)
         self.close_page()
         self.setCentralWidget(self.login)
         self.login.show()
 
     def show_reg(self):
+        self.reg = RegLogic(self)
         self.close_page()
         self.setCentralWidget(self.reg)
         self.reg.show()
 
     def show_wit(self):
+        self.wit = WitLogic(self)
         self.close_page()
         self.setCentralWidget(self.wit)
         self.wit.show()
 
     def show_dep(self):
+        self.dep = DepLogic(self)
         self.close_page()
         self.setCentralWidget(self.dep)
         self.dep.show()
 
     def show_home(self):
+        self.home = HomeLogic(self)
         self.close_page()
         self.setCentralWidget(self.home)
         self.home.show()
