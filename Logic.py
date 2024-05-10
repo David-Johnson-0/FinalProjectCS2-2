@@ -1,3 +1,4 @@
+# Imports needed files
 from gui.log import *
 from gui.reg import *
 from gui.home import *
@@ -9,45 +10,46 @@ import re
 import csv
 
 class Logic(QMainWindow):
+    # Initializes functions
     def __init__(self) -> None:
         super().__init__()
         self.account = None
         self.type = ''
-
+    # Opens Login Screen
     def show_log(self) -> None:
         self.login = LogLogic(self)
         self.close_page()
         self.setCentralWidget(self.login)
         self.login.show()
-
+    # Opens Registration Screen
     def show_reg(self) -> None:
         self.reg = RegLogic(self)
         self.close_page()
         self.setCentralWidget(self.reg)
         self.reg.show()
-
+    # Opens Withdraw Screen
     def show_wit(self) -> None:
         self.wit = WitLogic(self)
         self.close_page()
         self.setCentralWidget(self.wit)
         self.wit.show()
-
+    # Opens Deposit Screen
     def show_dep(self) -> None:
         self.dep = DepLogic(self)
         self.close_page()
         self.setCentralWidget(self.dep)
         self.dep.show()
-
+    # Opens Home Screen
     def show_home(self) -> None:
         self.home = HomeLogic(self)
         self.close_page()
         self.setCentralWidget(self.home)
         self.home.show()
-
+    # Closes current screen
     def close_page(self) -> None:
         if self.centralWidget() is not None:
             self.centralWidget().close()
-
+    # Hashes the password so it can't be seen
     def hash_password(self, password) -> str:
         password_bytes = password.encode('utf-8')
         sha256_hash = hashlib.sha256()
@@ -57,6 +59,7 @@ class Logic(QMainWindow):
 
 
 class LogLogic(QMainWindow, Ui_LoginDisplay):
+    # Initializes Login Screen and establishes buttons
     def __init__(self, Logic) -> None:
         super().__init__(Logic)
         self.setupUi(self)
@@ -65,7 +68,7 @@ class LogLogic(QMainWindow, Ui_LoginDisplay):
         self.RegisterButton.clicked.connect(lambda: self.logic.show_reg())
         self.SubmitButton.clicked.connect(lambda: self.validate())
         pass
-
+    # Validates email address to ensure it is in database
     def validate(self) -> None:
         email = self.usernameinput.text()
         with open('files/login_info.txt', 'r') as file:
@@ -81,6 +84,7 @@ class LogLogic(QMainWindow, Ui_LoginDisplay):
                         self.usernameinput.setFocus()
 
 class RegLogic(QMainWindow, Ui_Reg):
+    # Initializes registration screen and establishes buttons
     def __init__(self, Logic) -> None:
         super().__init__(Logic)
         self.setupUi(self)
@@ -89,6 +93,7 @@ class RegLogic(QMainWindow, Ui_Reg):
         self.SubmitButton.clicked.connect(lambda: self.register())
         self.BackButton.clicked.connect(lambda: self.logic.show_log())
         pass
+    # Takes in email and password inputs, then writes to the text file if the passwords are matching (clears if otherwise)
     def register(self) -> None:
         email = self.EmailInput.text()
         pass1 = self.PWInput.text()
@@ -109,7 +114,8 @@ class RegLogic(QMainWindow, Ui_Reg):
                 self.setfocus(self.FNameInput)
         else:
             pass
-    def val_inputs(self) -> bool:
+    # Ensures all the input are valid and formatted correctly
+    def val_inputs(self) -> Boolean:
         if self.is_empty(self.PWInput.text()):
             return False
         if self.is_empty(self.PWInput2.text()):
@@ -126,11 +132,13 @@ class RegLogic(QMainWindow, Ui_Reg):
         if not re.match(pattern, self.EmailInput.text()):
             return False
         return True
-    def is_empty(self, name) -> bool:
+    # Makes sure the string isn't empty
+    def is_empty(self, name) -> Boolean:
         if name == "":
             return True
         else:
             return False
+    # Writes the email and current balance in each account to the csv file
     def gen_csv(self) -> None:
         with open('files/account_info.csv', mode='w', newline='') as file:
             writer = csv.writer(file)
@@ -139,6 +147,7 @@ class RegLogic(QMainWindow, Ui_Reg):
 
 
 class HomeLogic(QMainWindow, Ui_Home):
+    # Initializes the home page, and sets the list of accounts to the user's name
     def __init__(self, Logic) -> None:
         super().__init__(Logic)
         self.setupUi(self)
@@ -155,7 +164,7 @@ class HomeLogic(QMainWindow, Ui_Home):
         self.DepButton.clicked.connect(lambda: self.get_checked())
         self.DepButton.clicked.connect(lambda: self.logic.show_dep())
         pass
-
+    # Determines which account will be affected by the operation
     def get_checked(self) -> None:
         if self.SavingButton.isChecked():
             self.logic.type = '-Save'
@@ -165,6 +174,7 @@ class HomeLogic(QMainWindow, Ui_Home):
             pass
 
 class DepLogic(QMainWindow, Ui_DepWindow):
+    # Initializes deposit page
     def __init__(self, Logic) -> None:
         super().__init__(Logic)
         self.setupUi(self)
@@ -172,7 +182,7 @@ class DepLogic(QMainWindow, Ui_DepWindow):
         self.DepButton.clicked.connect(lambda: self.deposit())
         self.BackButton.clicked.connect(lambda: self.logic.show_home())
         pass
-
+    # Deposits the money into the selected account and updates the csv file
     def deposit(self) -> None:
         with open('files/account_info.csv', mode='r', newline='') as file:
             reader = csv.reader(file)
@@ -191,6 +201,7 @@ class DepLogic(QMainWindow, Ui_DepWindow):
         self.DepInput2.setText('')
 
 class WitLogic(QMainWindow, Ui_Withdraw):
+    # Initializes the withdraw page
     def __init__(self, Logic) -> None:
         super().__init__(Logic)
         self.setupUi(self)
@@ -198,6 +209,7 @@ class WitLogic(QMainWindow, Ui_Withdraw):
         self.WitButton.clicked.connect(lambda: self.withdraw())
         self.BackButton_2.clicked.connect(lambda: self.logic.show_home())
         pass
+    # Withdraws money from the selected account and updates the csv file
     def withdraw(self) -> None:
         with open('files/account_info.csv', mode='r', newline='') as file:
             reader = csv.reader(file)
