@@ -2,7 +2,7 @@ import sys
 from PyQt6.QtWidgets import QApplication
 from Logic import Logic
 
-def main():
+def main() -> None:
     app = QApplication(sys.argv)
 
     logic = Logic()
