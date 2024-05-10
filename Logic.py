@@ -10,45 +10,45 @@ import re
 
 class Logic(QMainWindow):
     # Initialization function
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.account = None
     # Opens login screen
-    def show_log(self):
+    def show_log(self) -> None:
         self.login = LogLogic(self)
         self.close_page()
         self.setCentralWidget(self.login)
         self.login.show()
     # Opens registration screen
-    def show_reg(self):
+    def show_reg(self) -> None:
         self.reg = RegLogic(self)
         self.close_page()
         self.setCentralWidget(self.reg)
         self.reg.show()
     # Opens withdraw screen
-    def show_wit(self):
+    def show_wit(self) -> None:
         self.wit = WitLogic(self)
         self.close_page()
         self.setCentralWidget(self.wit)
         self.wit.show()
     # Opens deposit screen
-    def show_dep(self):
+    def show_dep(self) -> None:
         self.dep = DepLogic(self)
         self.close_page()
         self.setCentralWidget(self.dep)
         self.dep.show()
     # Opens home screen
-    def show_home(self):
+    def show_home(self) -> None:
         self.home = HomeLogic(self)
         self.close_page()
         self.setCentralWidget(self.home)
         self.home.show()
     # Closes the current page
-    def close_page(self):
+    def close_page(self) -> None:
         if self.centralWidget() is not None:
             self.centralWidget().close()
     # Hashes the password of the user
-    def hash_password(self, password):
+    def hash_password(self, password) -> str:
         password_bytes = password.encode('utf-8')
         sha256_hash = hashlib.sha256()
         sha256_hash.update(password_bytes)
@@ -58,7 +58,7 @@ class Logic(QMainWindow):
 
 class LogLogic(QMainWindow, Ui_LoginDisplay):
     # Initializes the UI and establishes connections.
-    def __init__(self, Logic):
+    def __init__(self, Logic) -> None:
         super().__init__(Logic)
         self.setupUi(self)
         self.logic = Logic
@@ -67,7 +67,7 @@ class LogLogic(QMainWindow, Ui_LoginDisplay):
         self.SubmitButton.clicked.connect(lambda: self.validate())
         pass
     # Reads the email and validates that the email is in the text file (a registered user).
-    def validate(self):
+    def validate(self) -> None:
         email = self.usernameinput.text()
         with open('files/login_info.txt', 'r') as file:
             for line in file:
@@ -83,7 +83,7 @@ class LogLogic(QMainWindow, Ui_LoginDisplay):
 
 class RegLogic(QMainWindow, Ui_Reg):
     # Initializes screen and establshes connections
-    def __init__(self, Logic):
+    def __init__(self, Logic) -> None:
         super().__init__(Logic)
         self.setupUi(self)
         self.logic = Logic
@@ -93,7 +93,7 @@ class RegLogic(QMainWindow, Ui_Reg):
         pass
     # Takes in the email and password the user enters and, if the passwords match, adds them to the text file.
     # Otherwise, the inputs are reset and the user must input again.
-    def register(self):
+    def register(self) -> None:
         email = self.EmailInput.text()
         pass1 = self.PWInput.text()
         pass2 = self.PWInput2.text()
@@ -113,7 +113,7 @@ class RegLogic(QMainWindow, Ui_Reg):
         else:
             pass
     # Validates the inputs, ensuring the formatting is accurate and the passwords are valid.
-    def val_inputs(self):
+    def val_inputs(self) -> boolean:
         if self.is_empty(self.PWInput.text()):
             return False
         if self.is_empty(self.PWInput2.text()):
@@ -131,7 +131,7 @@ class RegLogic(QMainWindow, Ui_Reg):
             return False
         return True
     # Checks if input is empty.
-    def is_empty(self, name):
+    def is_empty(self, name) -> boolean:
         if name == "":
             return True
         else:
@@ -139,7 +139,7 @@ class RegLogic(QMainWindow, Ui_Reg):
 
 class HomeLogic(QMainWindow, Ui_Home):
     # Initializes home screen and establishes button connections (where the user goes with each button
-    def __init__(self, Logic):
+    def __init__(self, Logic) -> None:
         super().__init__(Logic)
         self.setupUi(self)
         self.logic = Logic
@@ -157,7 +157,7 @@ class HomeLogic(QMainWindow, Ui_Home):
 
 class DepLogic(QMainWindow, Ui_DepWindow):
     # Initializes deposit page
-    def __init__(self, Logic):
+    def __init__(self, Logic) -> None:
         super().__init__(Logic)
         self.setupUi(self)
         self.logic = Logic
@@ -167,7 +167,7 @@ class DepLogic(QMainWindow, Ui_DepWindow):
 
 class WitLogic(QMainWindow, Ui_Withdraw):
     # Initializes withdraw page
-    def __init__(self, Logic):
+    def __init__(self, Logic) -> None:
         super().__init__(Logic)
         self.setupUi(self)
         self.logic = Logic
