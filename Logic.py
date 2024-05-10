@@ -113,7 +113,7 @@ class RegLogic(QMainWindow, Ui_Reg):
         else:
             pass
     # Validates the inputs, ensuring the formatting is accurate and the passwords are valid.
-    def val_inputs(self) -> boolean:
+    def val_inputs(self) -> Boolean:
         if self.is_empty(self.PWInput.text()):
             return False
         if self.is_empty(self.PWInput2.text()):
@@ -131,7 +131,7 @@ class RegLogic(QMainWindow, Ui_Reg):
             return False
         return True
     # Checks if input is empty.
-    def is_empty(self, name) -> boolean:
+    def is_empty(self, name) -> Boolean:
         if name == "":
             return True
         else:
